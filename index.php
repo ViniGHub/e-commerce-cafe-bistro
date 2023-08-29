@@ -1,3 +1,32 @@
+<?php 
+$produtosCafe = [
+    [
+        'nome' => 'Café Cremoso',
+        'descricao' => 'Café cremoso irresistivelmente suave e que envolve seu paladar',
+        'preco' => 'R$ 5.00',
+        'imagem' => './img/cafe-cremoso.jpg'
+    ],
+    [
+        'nome' => 'Café com Leite',
+        'descricao' => 'A harmonia perfeita do café e do leite, uma experiência reconfortante',
+        'preco' => 'R$ 2.00',
+        'imagem' => './img/cafe-com-leite.jpg'
+    ],
+    [
+        'nome' => 'Cappuccino',
+        'descricao' => 'Café suave, leite cremoso e uma pitada de sabor adocicado',
+        'preco' => 'R$ 7.00',
+        'imagem' => './img/cappuccino.jpg'
+    ],
+    [
+        'nome' => 'Café Gelado',
+        'descricao' => 'Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.',
+        'preco' => 'R$ 3.00',
+        'imagem' => './img/cafe-gelado.jpg'
+    ]
+];
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -15,6 +44,8 @@
     <title>Serenatto - Cardápio</title>
 </head>
 <body>
+    <!-- <div style="position: absolute; background: red; width: 4px; height:200vh; left: 50%; transform: translateX(-50%);"></div> -->
+
     <main>
         <section class="container-banner">
             <div class="container-texto-banner">
@@ -28,38 +59,16 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-cafe-manha-produtos">
+                <?php foreach ($produtosCafe as $value) {?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="img/cafe-cremoso.jpg">
+                        <img src="<?= $value['imagem'] ?>">
                     </div>
-                    <p>Café Cremoso</p>
-                    <p>Café cremoso irresistivelmente suave e que envolve seu paladar</p>
-                    <p>R$ 5.00</p>
+                    <p><?= $value['nome'] ?></p>
+                    <p><?= $value['descricao'] ?></p>
+                    <p><?= $value['preco'] ?></p>
                 </div>
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/cafe-com-leite.jpg">
-                    </div>
-                    <p>Café com Leite</p>
-                    <p>A harmonia perfeita do café e do leite, uma experiência reconfortante</p>
-                    <p>R$ 2.00</p>
-                </div>
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/cappuccino.jpg">
-                    </div>
-                    <p>Cappuccino</p>
-                    <p>Café suave, leite cremoso e uma pitada de sabor adocicado</p>
-                    <p>R$ 7.00</p>
-                </div>
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/cafe-gelado.jpg">
-                    </div>
-                    <p>Café Gelado</p>
-                    <p>Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.</p>
-                    <p>R$ 3.00</p>
-                </div>
+                <?php } ?>
             </div>
         </section>
         <section class="container-almoco">
@@ -99,6 +108,14 @@
                     <p>Fettuccine</p>
                     <p>Prato italiano autêntico da massa do fettuccine com peito de frango grelhado</p>
                     <p>R$ 22.50</p>
+                </div>
+                <div class="container-produto">
+                    <div class="container-foto">
+                        <img src="img/lentrancia.jfif">
+                    </div>
+                    <p>LentrecoTodas</p>
+                    <p>Bom demais véi segura pai</p>
+                    <p>R$ 70.99</p>
                 </div>
             </div>
 
