@@ -16,6 +16,5 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 } catch(PDOException $e) {
-    echo 'ERROR: ' . $e->getMessage() . PHP_EOL;
-    echo $e->getLine();
+    echo 'ERROR AT LINE ' . $e->getLine() . PHP_EOL . $e->getMessage() . PHP_EOL;
 }
