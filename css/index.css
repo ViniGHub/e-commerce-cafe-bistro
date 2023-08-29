@@ -13,7 +13,8 @@ main{
 .container-banner{
     width: 100%;
     height: 100%;
-    background-image: url("../img/banner-site.jpg");
+    background-image: linear-gradient(to top, rgba(50,59,30,255), 25%, transparent),
+    url("../img/banner-site.jpg");
     background-position: center;
     background-repeat: no-repeat;
 }
