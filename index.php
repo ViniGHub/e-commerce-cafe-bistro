@@ -1,4 +1,10 @@
 <?php
+
+require_once 'src/conexao-bd.php';
+
+$produtosCafe = $pdo->query(mb_convert_encoding('SELECT * FROM produtos WHERE tipo = \'Café\'', 'UTF-8'))->fetchAll(PDO::FETCH_ASSOC);
+
+
 $produtosAlmoco = [
     [
         'nome' => 'Bife',
@@ -33,32 +39,7 @@ $produtosAlmoco = [
 ];
 
 
-$produtosCafe = [
-    [
-        'nome' => 'Café Cremoso',
-        'descricao' => 'Café cremoso irresistivelmente suave e que envolve seu paladar',
-        'preco' => 'R$ 5.00',
-        'imagem' => './img/cafe-cremoso.jpg'
-    ],
-    [
-        'nome' => 'Café com Leite',
-        'descricao' => 'A harmonia perfeita do café e do leite, uma experiência reconfortante',
-        'preco' => 'R$ 2.00',
-        'imagem' => './img/cafe-com-leite.jpg'
-    ],
-    [
-        'nome' => 'Cappuccino',
-        'descricao' => 'Café suave, leite cremoso e uma pitada de sabor adocicado',
-        'preco' => 'R$ 7.00',
-        'imagem' => './img/cappuccino.jpg'
-    ],
-    [
-        'nome' => 'Café Gelado',
-        'descricao' => 'Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.',
-        'preco' => 'R$ 3.00',
-        'imagem' => './img/cafe-gelado.jpg'
-    ]
-];
+// $produtosCafe = ;
 ?>
 
 <!doctype html>
@@ -98,11 +79,11 @@ $produtosCafe = [
                 foreach ($produtosCafe as $cafe) { ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $cafe['imagem'] ?>">
+                            <img src="img/<?= mb_convert_encoding($cafe['IMAGEM'], 'UTF-8') ?>">
                         </div>
-                        <p><?= $cafe['nome'] ?></p>
-                        <p><?= $cafe['descricao'] ?></p>
-                        <p><?= $cafe['preco'] ?></p>
+                        <p><?= mb_convert_encoding($cafe['NOME'], "UTF-8") ?></p>
+                        <p><?= mb_convert_encoding($cafe['DESCRICAO'], "UTF-8") ?></p>
+                        <p> <?= mb_convert_encoding($cafe['PRECO'], "UTF-8") ?></p>
                     </div>
                 <?php
                 } ?>
