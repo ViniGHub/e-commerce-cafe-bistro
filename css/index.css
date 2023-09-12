@@ -40,6 +40,10 @@ h2{
     font-weight: bold;
 }
 
+h2::selection {
+    background-color: #9B8357;
+}
+
 
 .container-cafe-manha, .container-almoco{
     display: flex;
