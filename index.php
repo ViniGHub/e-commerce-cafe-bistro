@@ -1,45 +1,21 @@
 <?php
 
+use Modelo\Produto;
+use Repo\ProdutoRepo;
+
 require_once 'src/conexao-bd.php';
-
-$produtosCafe = $pdo->query(mb_convert_encoding('SELECT * FROM produtos WHERE tipo = \'Café\'', 'UTF-8'))->fetchAll(PDO::FETCH_ASSOC);
-
-
-$produtosAlmoco = [
-    [
-        'nome' => 'Bife',
-        'descricao' => 'Bife, arroz com feijão e uma deliciosa batata frita.',
-        'preco' => 'R$ 27.90',
-        'imagem' => 'img/bife.jpg'
-    ],
-    [
-        'nome' => 'Filé de peixe',
-        'descricao' => 'Filé de peixe salmão assado, arroz, feijão verde e tomate.',
-        'preco' => 'R$ 24.99',
-        'imagem' => 'img/prato-peixe.jpg'
-    ],
-    [
-        'nome' => 'Frango',
-        'descricao' => 'Saboroso frango à milanesa com batatas fritas, salada de repolho e molho picante.',
-        'preco' => 'R$ 23.00',
-        'imagem' => 'img/prato-frango.jpg'
-    ],
-    [
-        'nome' => 'Fettuccine',
-        'descricao' => 'Prato italiano autêntico da massa do fettuccine com peito de frango grelhado.',
-        'preco' => 'R$ 22.50',
-        'imagem' => 'img/fettuccine.jpg'
-    ],
-    [
-        'nome' => 'LentrecoTodas',
-        'descricao' => 'Bom demais véi segura pai.',
-        'preco' => 'R$ 70.99',
-        'imagem' => 'img/lentrancia.jfif'
-    ],
-];
+require_once 'src/Model/Produto.php';
+require_once 'src/Repo/ProdutoRepo.php';
 
 
-// $produtosCafe = ;
+/** @var PDO $pdo */
+
+$produtosRepo = new ProdutoRepo($pdo);
+
+$dadosCafe = $produtosRepo->produtosCafe();
+
+$dadosAlmoco = $produtosRepo->produtosAlmoco();
+
 ?>
 
 <!doctype html>
@@ -51,11 +27,11 @@ $produtosAlmoco = [
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
     <link rel="icon" href="img/icone-serenatto.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
     <title>Serenatto - Cardápio</title>
 </head>
 
@@ -76,14 +52,14 @@ $produtosAlmoco = [
             </div>
             <div class="container-cafe-manha-produtos">
                 <?php
-                foreach ($produtosCafe as $cafe) { ?>
+                foreach ($dadosCafe as $cafe) { ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="img/<?= mb_convert_encoding($cafe['IMAGEM'], 'UTF-8') ?>">
+                            <img src="<?= $cafe->getImgDirectory() ?>">
                         </div>
-                        <p><?= mb_convert_encoding($cafe['NOME'], "UTF-8") ?></p>
-                        <p><?= mb_convert_encoding($cafe['DESCRICAO'], "UTF-8") ?></p>
-                        <p> <?= mb_convert_encoding($cafe['PRECO'], "UTF-8") ?></p>
+                        <p><?= $cafe->getNome() ?></p>
+                        <p><?= $cafe->getDescricao() ?></p>
+                        <p><?= $cafe->getPrecoFormat()?></p>
                     </div>
                 <?php
                 } ?>
@@ -96,14 +72,14 @@ $produtosAlmoco = [
             </div>
             <div class="container-almoco-produtos">
                 <?php
-                foreach ($produtosAlmoco as $almoco) { ?>
+                foreach ($dadosAlmoco as $almoco) { ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $almoco['imagem'] ?>">
+                            <img src="<?= $almoco->getImgDirectory() ?>">
                         </div>
-                        <p><?= $almoco['nome'] ?></p>
-                        <p><?= $almoco['descricao'] ?></p>
-                        <p><?= $almoco['preco'] ?></p>
+                        <p><?= $almoco->getNome() ?></p>
+                        <p><?= $almoco->getDescricao() ?></p>
+                        <p><?= $almoco->getPrecoFormat() ?></p>
                     </div>
                 <?php
                 } ?>
