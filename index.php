@@ -1,6 +1,5 @@
 <?php
 
-use Modelo\Produto;
 use Repo\ProdutoRepo;
 
 require_once 'src/conexao-bd.php';
@@ -41,7 +40,9 @@ $dadosAlmoco = $produtosRepo->produtosAlmoco();
     <main>
         <section class="container-banner">
             <div class="container-texto-banner">
-                <img src="img/logo-serenatto.png" class="logo" alt="logo-serenatto">
+                <a href="admin.php">
+                    <img src="img/logo-serenatto.png" class="logo" alt="logo-serenatto">
+                </a>
             </div>
         </section>
         <h2>Cardápio Digital</h2>
@@ -59,7 +60,7 @@ $dadosAlmoco = $produtosRepo->produtosAlmoco();
                         </div>
                         <p><?= $cafe->getNome() ?></p>
                         <p><?= $cafe->getDescricao() ?></p>
-                        <p><?= $cafe->getPrecoFormat()?></p>
+                        <p><?= $cafe->getPrecoFormat() ?></p>
                     </div>
                 <?php
                 } ?>

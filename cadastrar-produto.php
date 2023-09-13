@@ -1,3 +1,24 @@
+<?php
+
+use Modelo\Produto;
+use Repo\ProdutoRepo;
+
+require_once 'src/conexao-bd.php';
+require_once 'src/Model/Produto.php';
+require_once 'src/Repo/ProdutoRepo.php';
+
+if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+    $produtosRepo = new ProdutoRepo($pdo);
+    $produto = new Produto(null, $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '',str_replace(',', '.',$_POST['preco']))));
+    $produtosRepo->save($produto);
+
+    header('location: /admin.php');
+}
+
+
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -24,7 +45,7 @@
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form action="#">
+        <form action="#" method="post">
 
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
