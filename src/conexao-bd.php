@@ -12,10 +12,9 @@ $tns = "
   )
        ";
 try {
-    $pdo = new PDO("oci:dbname=".$tns, 'cafe', 'cafe');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-} catch(PDOException $e) {
-    echo 'ERROR AT LINE ' . $e->getLine() . PHP_EOL . $e->getMessage() . PHP_EOL;
+  $pdo = new PDO("oci:dbname=" . $tns . ";charset=AL32UTF8", 'cafe', 'cafe');
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  
+} catch (PDOException $e) {
+  echo 'ERROR AT LINE ' . $e->getLine() . PHP_EOL . $e->getMessage() . PHP_EOL;
 }
-

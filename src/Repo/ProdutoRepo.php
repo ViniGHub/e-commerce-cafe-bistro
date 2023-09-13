@@ -15,26 +15,14 @@ class ProdutoRepo
     /** @return Produto[] */
     public function produtosCafe(): array
     {
-        $produtos = $this->pdo->query("SELECT * FROM produtos ORDER BY preco")->fetchAll(PDO::FETCH_ASSOC);
-
-        $dadosCafe = array_filter($produtos, function ($cafe) {
-            if (str_starts_with($cafe['TIPO'], 'Ca')) {
-                return $cafe;
-            }
-        });
+        $dadosCafe = $this->pdo->query("SELECT * FROM produtos WHERE tipo = 'Café' ORDER BY preco")->fetchAll(PDO::FETCH_ASSOC);
 
         return $this->hydrate($dadosCafe);
     }
 
     /** @return Produto[] */
     public function produtosAlmoco(): array {
-        $produtos = $this->pdo->query("SELECT * FROM produtos ORDER BY preco")->fetchAll(PDO::FETCH_ASSOC);
-
-        $dadosAlmoco = array_filter($produtos, function ($almoco) {
-            if (str_starts_with($almoco['TIPO'], 'Al')) {
-                return $almoco;
-            }
-        });
+        $dadosAlmoco = $this->pdo->query("SELECT * FROM produtos WHERE tipo = 'Almoço' ORDER BY preco")->fetchAll(PDO::FETCH_ASSOC);
         
         return $this->hydrate($dadosAlmoco);
     }
