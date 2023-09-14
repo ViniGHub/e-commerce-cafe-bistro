@@ -59,4 +59,26 @@ class ProdutoRepo
 
         return $stmt->execute();
     }
+
+    public function update(Produto $produto): bool {
+        $stmt = $this->pdo->prepare("UPDATE produtos SET tipo = ?, nome = ?, descricao = ?, imagem = ?, preco = ? WHERE id = ?");
+        $stmt->bindValue(1, $produto->getTipo());
+        $stmt->bindValue(2, $produto->getNome());
+        $stmt->bindValue(3, $produto->getDescricao());
+        $stmt->bindValue(4, $produto->getImagem());
+        $stmt->bindValue(5, str_replace('.', ',', $produto->getPreco()));
+        $stmt->bindValue(6, $produto->getId());
+        
+        return $stmt->execute();
+    }
+
+    public function find(int $id): Produto {
+
+    $prod = $this->pdo->query("SELECT * FROM produtos WHERE id = $id")->fetch(PDO::FETCH_ASSOC);
+
+    return new Produto($prod['ID'], $prod['TIPO'], $prod['NOME'], $prod['DESCRICAO'], floatval(str_replace(',','.',$prod['PRECO'])), $prod['IMAGEM']);
 }
+
+}
+
+
