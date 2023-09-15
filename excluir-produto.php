@@ -13,7 +13,10 @@ var_dump($id);
 $produtosRepo = new ProdutoRepo($pdo);
 
 $produto = $produtosRepo->find($id);
-unlink($produto->getImgDirectory());
+
+if ($produto->getImagem() != 'logo-serenatto.png') {
+    unlink($produto->getImgDirectory());
+}
 
 $produtosRepo->delete($id);
 
