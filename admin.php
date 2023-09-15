@@ -1,11 +1,9 @@
 <?php
 
-use Repo\ProdutoRepo;
-
+require_once 'vendor/autoload.php';
 require_once 'src/conexao-bd.php';
-require_once 'src/Model/Produto.php';
-require_once 'src/Repo/ProdutoRepo.php';
 
+use Alura\Cafe\Repo\ProdutoRepo;
 
 /** @var PDO $pdo */
 
@@ -77,7 +75,7 @@ $produtos = $produtosRepo->all();
         </tbody>
       </table>
       <a class="botao-cadastrar" href="cadastrar-produto.php">Cadastrar produto</a>
-      <form action="#" method="post">
+      <form action="gerador-pdf.php" method="post">
         <input type="submit" class="botao-cadastrar" value="Baixar Relatório" />
       </form>
     </section>

@@ -1,8 +1,8 @@
 <?php
 
-namespace Repo;
+namespace Alura\Cafe\Repo;
 
-use Modelo\Produto;
+use Alura\Cafe\Model\Produto;
 use PDO;
 
 class ProdutoRepo

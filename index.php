@@ -1,10 +1,9 @@
 <?php
 
-use Repo\ProdutoRepo;
-
+require_once 'vendor/autoload.php';
 require_once 'src/conexao-bd.php';
-require_once 'src/Model/Produto.php';
-require_once 'src/Repo/ProdutoRepo.php';
+
+use Alura\Cafe\Repo\ProdutoRepo;
 
 
 /** @var PDO $pdo */

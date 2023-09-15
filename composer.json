@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Alura\\Cafe\\": "src/"
+        }
+    },
+    "require": {
+        "dompdf/dompdf": "^2.0"
+    }
+}
