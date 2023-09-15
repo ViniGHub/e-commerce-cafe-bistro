@@ -1,4 +1,5 @@
 <?php
+
 use Modelo\Produto;
 use Repo\ProdutoRepo;
 
@@ -16,7 +17,19 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_POST['editar'])) {
-  $produtosRepo->update(new Produto($_GET['id'], $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '',str_replace(',', '.',$_POST['preco'])))));
+  if ($_FILES['imagem']['error'] == UPLOAD_ERR_OK) {
+    $produto = new Produto($_GET['id'], $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '', str_replace(',', '.', $_POST['preco']))), uniqid() . $_FILES['imagem']['name']);
+    move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImgDirectory());
+  } else {
+    $produto = new Produto($_GET['id'], $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '', str_replace(',', '.', $_POST['preco']))));
+  }
+
+  $prodImg = $produtosRepo->find($_GET['id']);
+  if ($prodImg->getImagem() != 'logo-serenatto.png') {
+    unlink($prodImg->getImgDirectory());
+  }
+
+  $produtosRepo->update($produto);
 
   header('location: admin.php');
 }
@@ -25,10 +38,10 @@ if (isset($_POST['editar'])) {
 
 <!doctype html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/index.css">
@@ -41,46 +54,48 @@ if (isset($_POST['editar'])) {
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
   <title>Serenatto - Editar Produto</title>
 </head>
+
 <body>
-<main>
-  <section class="container-admin-banner">
-    <img src="img/logo-serenatto-horizontal.png" class="logo-admin" alt="logo-serenatto">
-    <h1>Editar Produto</h1>
-    <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
-  </section>
-  <section class="container-form">
-    <form action="#" method="post">
+  <main>
+    <section class="container-admin-banner">
+      <img src="img/logo-serenatto-horizontal.png" class="logo-admin" alt="logo-serenatto">
+      <h1>Editar Produto</h1>
+      <img class="ornaments" src="img/ornaments-coffee.png" alt="ornaments">
+    </section>
+    <section class="container-form">
+      <form action="" method="post" enctype="multipart/form-data">
 
-      <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= $produto->getNome() ?>" required>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= $produto->getNome() ?>" required>
 
-      <div class="container-radio">
-        <div>
+        <div class="container-radio">
+          <div>
             <label for="cafe">Café</label>
             <input type="radio" id="cafe" name="tipo" value="Café" <?php if ($produto->getTipo() === 'Café') { ?> checked <?php } ?>>
-        </div>
-        <div>
+          </div>
+          <div>
             <label for="almoco">Almoço</label>
             <input type="radio" id="almoco" name="tipo" value="Almoço" <?php if ($produto->getTipo() === 'Almoço') { ?> checked <?php } ?>>
+          </div>
         </div>
-    </div>
 
-      <label for="descricao">Descrição</label>
-      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" value="<?= $produto->getDescricao() ?>" required>
+        <label for="descricao">Descrição</label>
+        <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" value="<?= $produto->getDescricao() ?>" required>
 
-      <label for="preco">Preço</label>
-      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" value="<?= $produto->getPrecoFormat() ?>" required>
+        <label for="preco">Preço</label>
+        <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" value="<?= $produto->getPrecoFormat() ?>" required>
 
-      <label for="imagem">Envie uma imagem do produto</label>
-      <input type="file" name="imagem" accept="image/*" id="imagem" value="<?= $produto->getImagem() ?>" placeholder="Envie uma imagem">
+        <label for="imagem">Envie uma imagem do produto</label>
+        <input type="file" name="imagem" accept="image/*" id="imagem" value="<?= $produto->getImagem() ?>" placeholder="Envie uma imagem">
 
-      <input type="submit" name="editar" class="botao-cadastrar"  value="Editar produto"/>
-    </form>
+        <input type="submit" name="editar" class="botao-cadastrar" value="Editar produto" />
+      </form>
 
-  </section>
-</main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="js/index.js"></script>
+    </section>
+  </main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/index.js"></script>
 </body>
+
 </html>
