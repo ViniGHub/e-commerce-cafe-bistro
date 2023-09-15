@@ -8,11 +8,18 @@ require_once 'src/Model/Produto.php';
 require_once 'src/Repo/ProdutoRepo.php';
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+
     $produtosRepo = new ProdutoRepo($pdo);
-    $produto = new Produto(null, $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '',str_replace(',', '.',$_POST['preco']))));
+    if ($_FILES['imagem']['error'] == UPLOAD_ERR_OK) {
+        $produto = new Produto(null, $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '',str_replace(',', '.',$_POST['preco']))), uniqid().$_FILES['imagem']['name']);
+        move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImgDirectory());
+    } else {
+        $produto = new Produto(null, $_POST['tipo'], $_POST['nome'], $_POST['descricao'], floatval(str_replace('R$', '',str_replace(',', '.',$_POST['preco']))));
+    }
+
     $produtosRepo->save($produto);
 
-    header('location: /admin.php');
+    header('location: admin.php');
 }
 
 ?>
@@ -43,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form action="#" method="post">
+        <form action="" method="POST" enctype="multipart/form-data">
 
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
