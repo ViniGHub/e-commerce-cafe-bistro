@@ -1,6 +1,6 @@
 <?php
 
-namespace Modelo;
+namespace Alura\Cafe\Model;
 
 class Produto {
     private ?int $id;
